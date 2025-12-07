@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: nginx:latest
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - "80:80" 
+    volumes:
+      - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app_network
+  #Frontend    
+  frontend:
+
+    image: ${FRONTEND_IMAGE_URI} 
+    container_name: blog_frontend
+    restart: always
+    environment:
+
+      - VITE_BACKEND_URL=http://backend:3000 
+    networks:
+      - app_network
+
+  #Backend   
+  backend:
+
+    image: ${BACKEND_IMAGE_URI}
+    container_name: blog_backend
+    restart: always
+    ports:
+
+      - "3000"
+    volumes:
+
+      - blog-data:/usr/src/app/blog.sqlite
+    environment:
+      - PORT=3000
+
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+
+    networks:
+      - app_network
+      
+volumes:
+
+  blog-data:
+
+networks:
+  app_network:
+    driver: bridge
