@@ -12,8 +12,8 @@ const ArticleOutputSchema = z.object({
 const getTrendingTopicsTool = tool(
   async () => {
     try {
-      const HASDATA_API_KEY = "a6d22a3a-56b5-42dc-9067-314fbdaf0d0b";
-      const HASDATA_URL = process.env.HASDATA_API_URL;
+      const HASDATA_API_KEY = process.env.HASDATA_API_KEY;
+      const HASDATA_URL = process.env.HASDATA_API_URL||"https://api.hasdata.com/scrape/google/news";
       const params = new URLSearchParams({
         q: "top technology stories",
         hl: "en",
