@@ -16,7 +16,7 @@ app.use(cors());
 // Routes
 app.use("/api/articles", articleRoutes);
 app.get("/api", (req, res) => {
-    res.send("Welcome to the Blob Generator Backend!");
+    res.send("Welcome to the AutoBlog Backend!");
 });
 
 // Initialization
