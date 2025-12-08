@@ -10,8 +10,8 @@ env:
 phases:
   install:
     commands:
-      - apt-get update && apt-get install -y jq
-      - echo "Installing dependencies..."
+      - echo "Installing dependencies (jq)..."
+      - yum install -y jq
       
   pre_build:
     commands:
