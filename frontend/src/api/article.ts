@@ -1,5 +1,5 @@
 import type { Article } from "../components/Func_Types";
-const API_BASE_URL: string = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+const API_BASE_URL: string = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3003';
 
 export async function fetchArticles(): Promise<Article[]> {
     const response = await fetch(`${API_BASE_URL}/api/articles`);
