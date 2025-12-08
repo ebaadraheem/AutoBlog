@@ -2,12 +2,11 @@ FROM node:20-alpine AS build
 
 WORKDIR /usr/src/app
 
-COPY ./frontend/package.json ./frontend/package-lock.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY ./frontend/ .
-
+COPY . .
 ARG VITE_BACKEND_URL
 RUN VITE_BACKEND_URL=$VITE_BACKEND_URL npm run build
 

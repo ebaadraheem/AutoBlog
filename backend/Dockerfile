@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y python3 make g++
 
-COPY ./backend/package.json ./backend/package-lock.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY ./backend/ .
+COPY . .
 
 FROM node:20-slim AS final
 
