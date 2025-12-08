@@ -17,8 +17,7 @@ services:
     image: ${FRONTEND_IMAGE_URI} 
     container_name: blog_frontend
     restart: always
-    # environment:
-    #   - VITE_BACKEND_URL=http://backend:3003 
+    
     networks:
       - app_network
 
