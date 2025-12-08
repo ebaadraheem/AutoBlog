@@ -15,7 +15,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/articles", articleRoutes);
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("Welcome to the Blob Generator Backend!");
 });
 
