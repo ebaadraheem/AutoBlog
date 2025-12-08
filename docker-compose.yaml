@@ -31,9 +31,10 @@ services:
       - "3003"
     volumes:
 
-      - blog-data:/usr/src/app/blog.sqlite
+     - blog-data:/app/data
     environment:
       - PORT=3003
+      - DB_FILE_PATH=/app/data/blog.sqlite
       - HASDATA_API_KEY=${HASDATA_API_KEY}
       - HASDATA_API_URL=${HASDATA_API_URL}
       - GEMINI_API_KEY=${GEMINI_API_KEY}

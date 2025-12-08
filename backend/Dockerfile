@@ -17,7 +17,13 @@ WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app .
 
-ENV DB_FILE_PATH="/usr/src/app/blog.sqlite"
+RUN mkdir -p /app/data
+
+RUN chmod 777 /app/data
+
+USER node
+
+ENV DB_FILE_PATH="/app/data/blog.sqlite"
 
 EXPOSE 3003
 

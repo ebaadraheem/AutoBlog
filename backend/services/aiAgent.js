@@ -40,7 +40,7 @@ const getTrendingTopicsTool = tool(
       const data = await response.json();
 
       const newsResults = data.newsResults ?? [];
-      const topics = newsResults.slice(0, 5).map((item) => item.title);
+      const topics = newsResults.slice(0, 80).map((item) => item.title);
 
       if (topics.length === 0) {
         throw new Error(

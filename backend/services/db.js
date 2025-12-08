@@ -1,16 +1,12 @@
 import { open } from "sqlite";
 import sqlite3 from "sqlite3";
 import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 let db;
 
 export async function initializeDatabase() {
   try {
-    const dbPath = path.resolve(__dirname, "..", "..", "blog.sqlite");
+    const dbPath = process.env.DB_FILE_PATH || path.resolve(process.cwd(), "blog.sqlite");
 
     db = await open({
       filename: dbPath,
