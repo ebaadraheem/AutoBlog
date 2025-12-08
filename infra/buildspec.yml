@@ -1,0 +1,50 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_REGION: "<AWS_REGION>"
+    AWS_ACCOUNT_ID: "<AWS_ACCOUNT_ID>"
+    FRONTEND_REPO_NAME: "autoblog-frontend"
+    BACKEND_REPO_NAME: "autoblog-backend"
+
+phases:
+  install:
+    commands:
+      - apt-get update && apt-get install -y jq
+      - echo "Installing dependencies..."
+      
+  pre_build:
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - ECR_URI_PREFIX="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URI_PREFIX
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG="${COMMIT_HASH}-latest"
+
+  build:
+    commands:
+      # Frontend Image 
+      - echo "Building frontend Docker image..."
+      - docker build -t $FRONTEND_REPO_NAME:latest -t $FRONTEND_REPO_NAME:$IMAGE_TAG --build-arg VITE_BACKEND_URL=/api ./frontend/
+
+      # Backend Image 
+      - echo "Building backend Docker image..."
+      - docker build -t $BACKEND_REPO_NAME:latest -t $BACKEND_REPO_NAME:$IMAGE_TAG ./backend/
+
+  post_build:
+    commands:
+      # Pushing Images to ECR
+      - echo "Tagging and pushing frontend image to ECR..."
+      - docker tag $FRONTEND_REPO_NAME:latest $ECR_URI_PREFIX/$FRONTEND_REPO_NAME:latest
+      - docker tag $FRONTEND_REPO_NAME:$IMAGE_TAG $ECR_URI_PREFIX/$FRONTEND_REPO_NAME:$IMAGE_TAG
+      - docker push $ECR_URI_PREFIX/$FRONTEND_REPO_NAME:latest
+      - docker push $ECR_URI_PREFIX/$FRONTEND_REPO_NAME:$IMAGE_TAG
+
+      - echo "Tagging and pushing backend image to ECR..."
+      - docker tag $BACKEND_REPO_NAME:latest $ECR_URI_PREFIX/$BACKEND_REPO_NAME:latest
+      - docker tag $BACKEND_REPO_NAME:$IMAGE_TAG $ECR_URI_PREFIX/$BACKEND_REPO_NAME:$IMAGE_TAG
+      - docker push $ECR_URI_PREFIX/$BACKEND_REPO_NAME:latest
+      - docker push $ECR_URI_PREFIX/$BACKEND_REPO_NAME:$IMAGE_TAG
+
+      - echo "Build and push complete. Starting EC2 deployment process..."
+    
