@@ -1,8 +1,9 @@
 import type { Article } from "../components/Func_Types";
-const API_BASE_URL: string = 'http://localhost:3003';
+
+const API_BASE_URL: string = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3003';
 
 export async function fetchArticles(): Promise<Article[]> {
-    const response = await fetch(`${API_BASE_URL}/articles`);
+    const response = await fetch(`${API_BASE_URL}/articles`); 
     
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
