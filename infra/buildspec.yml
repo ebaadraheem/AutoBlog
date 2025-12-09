@@ -22,9 +22,9 @@ phases:
       - IMAGE_TAG="${COMMIT_HASH}-latest"
 
   build:
-    commands:
+  commands:
       - echo "Building frontend Docker image..."
-      - docker build --build-arg VITE_BACKEND_URL=/api -t $FRONTEND_REPO_NAME:latest -t $FRONTEND_REPO_NAME:$IMAGE_TAG ./frontend/
+      - docker build --no-cache --build-arg VITE_BACKEND_URL=/api -t $FRONTEND_REPO_NAME:latest -t $FRONTEND_REPO_NAME:$IMAGE_TAG ./frontend/
 
       - echo "Building backend Docker image..."
       - docker build -t $BACKEND_REPO_NAME:latest -t $BACKEND_REPO_NAME:$IMAGE_TAG ./backend/
