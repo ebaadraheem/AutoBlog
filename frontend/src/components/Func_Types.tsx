@@ -16,7 +16,7 @@ const formatDate = (isoString: string): string => {
   });
 };
 const LoadingSpinner: React.FC = () => (
-  <div className="flex justify-center items-center p-8  min-h-[60vh]">
+  <div className="flex justify-center items-center p-8  min-h-[75vh]">
     <Loader2 className="h-8 w-8 max-sm:h-6 max-sm:w-6 animate-spin text-indigo-500" />
     <span className="ml-3 sm:text-lg  font-medium text-gray-600">
       Loading Content...
