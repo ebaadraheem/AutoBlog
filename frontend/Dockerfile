@@ -15,6 +15,8 @@ RUN npm run build
 
 FROM nginx:alpine AS final
 
+COPY frontend/nginx-spa.conf /etc/nginx/conf.d/default.conf
+
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
 EXPOSE 80
