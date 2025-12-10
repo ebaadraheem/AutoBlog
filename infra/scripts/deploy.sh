@@ -26,6 +26,6 @@ export FRONTEND_IMAGE_URI="${FRONTEND_REPO_URI}:latest"
 export BACKEND_IMAGE_URI="${BACKEND_REPO_URI}:latest"
 
 # Run Docker Compose
-docker-compose up -d --force-recreate --remove-orphans
+docker-compose pull frontend backend && docker-compose up -d --force-recreate --remove-orphans
 
 echo "Deployment complete! Services are running in detached mode."
